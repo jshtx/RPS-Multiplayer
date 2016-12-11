@@ -1,0 +1,32 @@
+.header {
+	text-align: center;
+}
+
+img {
+	width: 250px;
+	height: 200px;
+
+}
+
+#submitName {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.choices {
+	display: none;
+	
+}
+
+.scoreAndName {
+
+}
+
+#score {
+	position: absolute;
+	z-index: -1;
+}
+
+#scoreHead {
+	text-decoration: underline;
+}
