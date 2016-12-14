@@ -65,6 +65,7 @@ connectionsRef.on("value", function(snapshot) {
   e.stopPropagation();
   		console.log(playNum);
       var username = $("#name-input").val().trim();
+
       console.log(username);
       if (playNum === 1) {
       	p1name = username;
@@ -114,7 +115,7 @@ function choiceMade(choice){
 };
 
 function results(){
-	$ (".choices").hide()
+	$ (".choice").hide()
 
 	
 
@@ -131,22 +132,22 @@ function results(){
 
   		if ((finalAnswer1 === "rock") && (finalAnswer2 === "scissors")) {
 
-            player1wins(finalAnswer1, finalAnswer2);
+            player1wins();
           }
           else if ((finalAnswer1 === "rock") && (finalAnswer2 === "paper")) {
-            player2wins(finalAnswer1, finalAnswer2);
+            player2wins();
           }
           else if ((finalAnswer1 === "scissors") && (finalAnswer2 === "rock")) {
-            player2wins(finalAnswer1, finalAnswer2);
+            player2wins();
           }
           else if ((finalAnswer1 === "scissors") && (finalAnswer2 === "paper")) {
-            player1wins(finalAnswer1, finalAnswer2);
+            player1wins();
           }
           else if ((finalAnswer1 === "paper") && (finalAnswer2 === "rock")) {
-            player1wins(finalAnswer1, finalAnswer2);
+            player1wins();
           }
           else if ((finalAnswer1 === "paper") && (finalAnswer2 === "scissors")) {
-            player2wins(finalAnswer1, finalAnswer2);
+            player2wins();
           }
           else if (finalAnswer1 === finalAnswer2) {
             console.log("tie");
@@ -160,50 +161,91 @@ function results(){
   console.log("The read failed: " + errorObject.code);
 });
 
+      return false;
+
 };
 
-function player1wins(finalAnswer1, finalAnswer2) {
+function player1wins() {
 
-		console.log(finalAnswer1);
-
-                  $(".choices").append("test");
-                  $(".choices").append(p2name + " chose " + finalAnswer2);
-                  $(".choices").append(p1name + " WINS!");
-                  
-
-                
-                
 			
+
+			playerRef.on("value", function(snapshot) {
+	
+
+       $ (".choices").append(snapshot.val().p1name + " chose " + snapshot.val().p1answer);
+       $ (".choices").append(snapshot.val().p2name + " chose " + snapshot.val().p2answer);
+       $ (".choices").append(snapshot.val().p1name + "WINS!");
+      
+
+      
+
+    // If there is an error that Firebase runs into -- it will be stored in the "errorObject"
+    // Again we could have named errorObject anything we wanted.
+    }, function(errorObject) {
+
+      
+      console.log("The read failed: " + errorObject.code);
+
+
+    });
+
+			p1score++;
             playerRef.update({
         		p1score: p1score
     
        		});
+
+       		return false;
        		
+       	//	endGame();
        		console.log("play1 win");
 
 };
 
-function player2wins(finalAnswer1, finalAnswer2) {
+function player2wins() {
 
-	console.log(finalAnswer1);
 
-                   $(".choices").append("test222");
-                  $(".choices").append(p2name + " chose " + finalAnswer2);
-                  $(".choices").append(p1name + " WINS!");
-                  
-
-                
-       
+                   playerRef.on("value", function(snapshot) {
 	
+
+       $ (".choices").append(snapshot.val().p1name + " chose " + snapshot.val().p1answer);
+       $ (".choices").append(snapshot.val().p2name + " chose " + snapshot.val().p2answer);
+       $ (".choices").append(snapshot.val().p2name + "WINS!");
+      
+
+      
+
+    // If there is an error that Firebase runs into -- it will be stored in the "errorObject"
+    // Again we could have named errorObject anything we wanted.
+    }, function(errorObject) {
+
+      
+      console.log("The read failed: " + errorObject.code);
+
+
+    });
+
+              p2score++;   
+  
             playerRef.update({
         		p2score: p2score
     
        		});
        	
+       		return false;
        		console.log("play2 win");
+       	//	endGame();
 };
 
+// function endGame () {
 
+//                   $(".choices").append("test");
+//                   $(".choices").append(p2name + " chose " + finalAnswer2);
+//                   $(".choices").append(p1name + " WINS!");
+                  
+
+
+// };
 
  //function for click of rock, paper, or scissors
  $(".choice").on("click", function() {
